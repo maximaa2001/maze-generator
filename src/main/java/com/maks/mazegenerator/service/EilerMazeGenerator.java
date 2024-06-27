@@ -1,39 +1,29 @@
 package com.maks.mazegenerator.service;
 
-import com.maks.mazegenerator.entity.Maze;
+import com.maks.mazegenerator.property.Maze;
 
 public class EilerMazeGenerator implements MazeGenerator {
-    private final int width;
-    private final int height;
-    private final boolean[][] verticalWalls;
-    private final boolean[][] horizontalWalls;
     private final BooleanGenerator booleanGenerator;
     private int nextGroupNumber = 1;
 
-    public EilerMazeGenerator(int width, int height, BooleanGenerator booleanGenerator) {
-        this.width = width;
-        this.height = height;
-        verticalWalls = new boolean[height][width];
-        horizontalWalls = new boolean[height][width];
+    public EilerMazeGenerator(BooleanGenerator booleanGenerator) {
         this.booleanGenerator = booleanGenerator;
     }
 
-    public EilerMazeGenerator(int size, BooleanGenerator booleanGenerator) {
-        this(size, size, booleanGenerator);
-    }
-
     @Override
-    public Maze generate() {
+    public Maze generate(int width, int height) {
+        boolean[][] verticalWalls = new boolean[height][width];
+        boolean[][] horizontalWalls = new boolean[height][width];
         int[][] groupNumberMatrix = new int[height][width];
         resetNextGroupNumber();
         generateGroupNumbersForFirstLine(groupNumberMatrix);
         for (int i = 0; i < height; i++) {
-            installRightWalls(groupNumberMatrix, i);
-            installBottomWalls(groupNumberMatrix, i);
-            if (needNextLine(i)) {
-                addNewLine(groupNumberMatrix, i, i + 1);
+            installRightWalls(groupNumberMatrix, i, verticalWalls, width);
+            installBottomWalls(groupNumberMatrix, i, horizontalWalls);
+            if (needNextLine(i, height)) {
+                addNewLine(groupNumberMatrix, i, i + 1, horizontalWalls);
             } else {
-                finishLastLine(groupNumberMatrix, i);
+                finishLastLine(groupNumberMatrix, i, verticalWalls, horizontalWalls, width);
             }
         }
         return new Maze(width, height, verticalWalls, horizontalWalls);
@@ -53,7 +43,7 @@ public class EilerMazeGenerator implements MazeGenerator {
         }
     }
 
-    private void installRightWalls(int[][] groupNumberMatrix, int row) {
+    private void installRightWalls(int[][] groupNumberMatrix, int row, boolean[][] verticalWalls, int width) {
         for (int i = 0; i < groupNumberMatrix[row].length - 1; i++) {
             boolean needToInstallRightWall = booleanGenerator.random();
             if (needToInstallRightWall) {
@@ -81,18 +71,18 @@ public class EilerMazeGenerator implements MazeGenerator {
         }
     }
 
-    private void installBottomWalls(int[][] groupNumberMatrix, int row) {
+    private void installBottomWalls(int[][] groupNumberMatrix, int row, boolean[][] horizontalWalls) {
         for (int i = 0; i < groupNumberMatrix[row].length; i++) {
             boolean needToInstallBottomWall = booleanGenerator.random();
             if (needToInstallBottomWall) {
-                if (resolveCellsWithoutBottomWallCountInGroup(groupNumberMatrix, row, groupNumberMatrix[row][i]) > 1) {
+                if (resolveCellsWithoutBottomWallCountInGroup(groupNumberMatrix, row, groupNumberMatrix[row][i], horizontalWalls) > 1) {
                     horizontalWalls[row][i] = true;
                 }
             }
         }
     }
 
-    private int resolveCellsWithoutBottomWallCountInGroup(int[][] groupNumberMatrix, int row, int groupNumber) {
+    private int resolveCellsWithoutBottomWallCountInGroup(int[][] groupNumberMatrix, int row, int groupNumber, boolean[][] horizontalWalls) {
         int cellsWithoutBottomWallCount = 0;
         for (int i = 0; i < groupNumberMatrix[row].length; i++) {
             if (groupNumberMatrix[row][i] == groupNumber && !horizontalWalls[row][i]) {
@@ -102,7 +92,7 @@ public class EilerMazeGenerator implements MazeGenerator {
         return cellsWithoutBottomWallCount;
     }
 
-    private void addNewLine(int[][] groupNumberMatrix, int prevRow, int newRow) {
+    private void addNewLine(int[][] groupNumberMatrix, int prevRow, int newRow, boolean[][] horizontalWalls) {
         for (int i = 0; i < groupNumberMatrix[newRow].length; i++) {
             groupNumberMatrix[newRow][i] = groupNumberMatrix[prevRow][i];
         }
@@ -113,7 +103,7 @@ public class EilerMazeGenerator implements MazeGenerator {
         }
     }
 
-    private void finishLastLine(int[][] groupNumberMatrix, int row) {
+    private void finishLastLine(int[][] groupNumberMatrix, int row, boolean[][] verticalWalls, boolean[][] horizontalWalls, int width) {
         for (int i = 0; i < groupNumberMatrix[row].length - 1; i++) {
             horizontalWalls[row][i] = true;
             if (!compareWithGroupNumberOnRight(groupNumberMatrix, row, i)) {
@@ -124,7 +114,7 @@ public class EilerMazeGenerator implements MazeGenerator {
         horizontalWalls[row][width - 1] = true;
     }
 
-    private boolean needNextLine(int currentLine) {
+    private boolean needNextLine(int currentLine, int height) {
         return currentLine + 1 < height;
     }
 }

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #696969;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.maks.mazegenerator.MazeGeneratorController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #696969;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.maks.mazegenerator.view.MazeGeneratorView">
     <children>
         <GridPane fx:id="gridPane" layoutX="166.0" layoutY="175.0" maxHeight="790.0" maxWidth="790.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="790.0" prefWidth="790.0" style="-fx-border-color: black;" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="205.0" AnchorPane.topAnchor="5.0">
         </GridPane>
@@ -24,5 +27,29 @@
                 <Font size="18.0" />
             </font>
         </Button>
+      <Button fx:id="passBtn" layoutX="803.0" layoutY="436.0" mnemonicParsing="false" onAction="#onPass" prefHeight="35.0" prefWidth="177.0" text="Pass maze" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Label fx:id="pointErrorLbl" layoutX="804.0" layoutY="477.0" prefHeight="20.0" prefWidth="177.0" textFill="#FF3333"/>
+      <TextField fx:id="widthInput" layoutX="803.0" layoutY="174.0" prefHeight="24.0" prefWidth="77.0" promptText="width" />
+      <TextField fx:id="heightInput" layoutX="903.0" layoutY="174.0" prefHeight="24.0" prefWidth="77.0" promptText="height" />
+      <Label fx:id="generateErrorLbl" alignment="CENTER" layoutX="803.0" layoutY="248.0" prefHeight="20.0" prefWidth="177.0" textFill="#FF3333" />
+      <CheckBox fx:id="startCheckBox" alignment="CENTER" layoutX="808.0" layoutY="295.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="168.0" text="Start point">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="endCheckBox" alignment="CENTER" layoutX="808.0" layoutY="337.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="168.0" text="End point">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </CheckBox>
+      <Button fx:id="clearPointsBtn" layoutX="804.0" layoutY="385.0" mnemonicParsing="false" onAction="#onClearData" prefHeight="35.0" prefWidth="177.0" text="Clear Data" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>
