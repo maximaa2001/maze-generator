@@ -28,8 +28,8 @@ public final class Forwarder {
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource(fxmlName));
             Scene scene = new Scene(fxmlLoader.load(), stage.getWidth(), stage.getHeight());
             AbstractView view = fxmlLoader.getController();
+            LifecycleProvider.getInstance().addLifecycle(scene, view.getLifecycle());
             view.setStage(stage);
-            view.setScene(scene);
             stage.setScene(scene);
             stage.setResizable(false);
             stage.show();
