@@ -11,22 +11,22 @@ public class EilerMazeGenerator implements MazeGenerator {
     }
 
     @Override
-    public Maze generate(int width, int height) {
-        boolean[][] verticalWalls = new boolean[height][width];
-        boolean[][] horizontalWalls = new boolean[height][width];
-        int[][] groupNumberMatrix = new int[height][width];
+    public Maze generate(int size) {
+        boolean[][] verticalWalls = new boolean[size][size];
+        boolean[][] horizontalWalls = new boolean[size][size];
+        int[][] groupNumberMatrix = new int[size][size];
         resetNextGroupNumber();
         generateGroupNumbersForFirstLine(groupNumberMatrix);
-        for (int i = 0; i < height; i++) {
-            installRightWalls(groupNumberMatrix, i, verticalWalls, width);
+        for (int i = 0; i < size; i++) {
+            installRightWalls(groupNumberMatrix, i, verticalWalls, size);
             installBottomWalls(groupNumberMatrix, i, horizontalWalls);
-            if (needNextLine(i, height)) {
+            if (needNextLine(i, size)) {
                 addNewLine(groupNumberMatrix, i, i + 1, horizontalWalls);
             } else {
-                finishLastLine(groupNumberMatrix, i, verticalWalls, horizontalWalls, width);
+                finishLastLine(groupNumberMatrix, i, verticalWalls, horizontalWalls, size);
             }
         }
-        return new Maze(width, height, verticalWalls, horizontalWalls);
+        return new Maze(size, size, verticalWalls, horizontalWalls);
     }
 
     private void resetNextGroupNumber() {

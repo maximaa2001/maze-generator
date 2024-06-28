@@ -53,10 +53,7 @@ public class MazeGeneratorView extends AbstractView {
     private Label pointErrorLbl;
 
     @FXML
-    private TextField widthInput;
-
-    @FXML
-    private TextField heightInput;
+    private TextField sizeInput;
 
     @FXML
     private Label generateErrorLbl;
@@ -75,8 +72,7 @@ public class MazeGeneratorView extends AbstractView {
     private MazeGeneratorViewModel mazeGeneratorViewModel;
     private final AnimationService animationService = new AnimationServiceImpl();
 
-    private Double cellWidth;
-    private Double cellHeight;
+    private Double cellSideLength;
 
     @FXML
     void initialize() {
@@ -92,7 +88,7 @@ public class MazeGeneratorView extends AbstractView {
 
     @FXML
     void onGenerate(ActionEvent event) {
-        mazeGeneratorViewModel.handleGenerate(widthInput.getText(), heightInput.getText());
+        mazeGeneratorViewModel.handleGenerate(sizeInput.getText());
     }
 
     @FXML
@@ -112,8 +108,7 @@ public class MazeGeneratorView extends AbstractView {
 
     private void addObservers() {
         mazeGeneratorViewModel.getMazeProperty().addListener((observable, oldValue, newValue) -> {
-            cellWidth = gridPane.getWidth() / newValue.width();
-            cellHeight = gridPane.getHeight() / newValue.height();
+            cellSideLength = gridPane.getWidth() / newValue.width();
             showMaze(newValue);
         });
         mazeGeneratorViewModel.getGenerateErrorProperty().addListener((observable, oldValue, newValue) -> generateErrorLbl.setText(newValue));
@@ -154,11 +149,11 @@ public class MazeGeneratorView extends AbstractView {
         });
         mazeGeneratorViewModel.getPointErrorProperty().addListener((observable, oldValue, newValue) -> pointErrorLbl.setText(newValue));
         mazeGeneratorViewModel.getPathProperty().addListener((observable, oldValue, newValue) -> {
-            AnimationHero pacman = new Pacman(cellWidth, cellHeight);
+            AnimationHero pacman = new Pacman(cellSideLength, cellSideLength);
             Pair<Integer, Integer> startPoint = mazeGeneratorViewModel.getStartPointProperty().getValue();
             stackPanes[startPoint.getKey()][startPoint.getValue()].getChildren().add(pacman.getImageView());
             animationService.runFrameAnimation(pacman);
-            animationService.runTransitionAnimation(pacman, mazeGeneratorViewModel.getPathProperty().getValue(), cellWidth, cellHeight);
+            animationService.runTransitionAnimation(pacman, mazeGeneratorViewModel.getPathProperty().getValue(), cellSideLength);
         });
     }
 
@@ -174,9 +169,9 @@ public class MazeGeneratorView extends AbstractView {
                     pane.getChildren().add(line);
                     StackPane.setAlignment(line, Pos.TOP_RIGHT);
                     if (i == maze.height() - 1) {
-                        line.setEndY(cellHeight - 2);
+                        line.setEndY(cellSideLength - 2);
                     } else {
-                        line.setEndY(cellHeight - 1);
+                        line.setEndY(cellSideLength - 1);
                     }
                 }
             }
@@ -189,9 +184,9 @@ public class MazeGeneratorView extends AbstractView {
                     pane.getChildren().add(line);
                     StackPane.setAlignment(line, Pos.BOTTOM_LEFT);
                     if (j == maze.width() - 1) {
-                        line.setEndX(cellWidth - 2);
+                        line.setEndX(cellSideLength - 2);
                     } else {
-                        line.setEndX(cellHeight - 1);
+                        line.setEndX(cellSideLength - 1);
                     }
                 }
             }
@@ -212,13 +207,13 @@ public class MazeGeneratorView extends AbstractView {
         for (int i = 0; i < maze.width(); i++) {
             ColumnConstraints column = new ColumnConstraints();
             column.setHgrow(Priority.ALWAYS);
-            column.setMaxWidth(cellWidth);
+            column.setMaxWidth(cellSideLength);
             gridPane.getColumnConstraints().add(column);
         }
         for (int i = 0; i < maze.height(); i++) {
             RowConstraints row = new RowConstraints();
             row.setVgrow(Priority.ALWAYS);
-            row.setMaxHeight(cellHeight);
+            row.setMaxHeight(cellSideLength);
             gridPane.getRowConstraints().add(row);
         }
         for (int i = 0; i < maze.height(); i++) {

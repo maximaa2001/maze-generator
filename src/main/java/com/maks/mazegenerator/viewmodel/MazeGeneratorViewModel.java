@@ -54,17 +54,16 @@ public class MazeGeneratorViewModel extends AbstractViewModel {
         mazeProperty.removeListener(mazeListener);
     }
 
-    public void handleGenerate(String widthStr, String heightStr) {
+    public void handleGenerate(String sizeStr) {
         if (lifecycle.getCurrentEvent() == Event.START) {
             try {
-                int width = Integer.parseInt(widthStr);
-                int height = Integer.parseInt(heightStr);
-                if (width > 0 && height > 0) {
+                int size = Integer.parseInt(sizeStr);
+                if (size > 0) {
                     generateErrorProperty.setValue("");
                     startPointProperty.setValue(null);
                     endPointProperty.setValue(null);
                     eventHandlerDtoProperty.setValue(new EventHandlerDto(null));
-                    mazeProperty.setValue(mazeGenerator.generate(width, height));
+                    mazeProperty.setValue(mazeGenerator.generate(size));
                     eventHandlerDtoProperty.setValue(new EventHandlerDto(stackPaneEventHandler));
                 } else {
                     generateErrorProperty.setValue("Incorrect data");

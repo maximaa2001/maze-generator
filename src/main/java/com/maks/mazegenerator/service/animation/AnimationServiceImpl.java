@@ -22,15 +22,15 @@ public class AnimationServiceImpl implements AnimationService {
     }
 
     @Override
-    public void runTransitionAnimation(AnimationHero hero, List<Pair<Integer, Integer>> path, double cellWidth, double cellHeight) {
-        PathTransition transition = new PathTransition(TransitionDurationFactory.createTime(path.size()), new Path(resolvePathElements(hero, path, cellWidth, cellHeight)), hero.getImageView());
+    public void runTransitionAnimation(AnimationHero hero, List<Pair<Integer, Integer>> path, double cellSideLength) {
+        PathTransition transition = new PathTransition(TransitionDurationFactory.createTime(path.size()), new Path(resolvePathElements(hero, path, cellSideLength)), hero.getImageView());
         transition.play();
     }
 
-    private List<PathElement> resolvePathElements(AnimationHero hero, List<Pair<Integer, Integer>> path, double cellWidth, double cellHeight) {
+    private List<PathElement> resolvePathElements(AnimationHero hero, List<Pair<Integer, Integer>> path, double cellSideLength) {
         List<PathElement> pathElements = new ArrayList<>();
-        double currentX = hero.getImageView().getX() + cellWidth / 2;
-        double currentY = hero.getImageView().getY() + cellHeight / 2;
+        double currentX = hero.getImageView().getX() + cellSideLength / 2;
+        double currentY = hero.getImageView().getY() + cellSideLength / 2;
         pathElements.add(new MoveTo(currentX, currentY));
         for (int i = 0; i < path.size() - 1; i++) {
             Pair<Integer, Integer> from = path.get(i);
@@ -41,15 +41,15 @@ public class AnimationServiceImpl implements AnimationService {
             int toColumn = to.getValue();
             if (fromRow == toRow) {
                 if (toColumn > fromColumn) {
-                    currentX += cellWidth;
+                    currentX += cellSideLength;
                 } else {
-                    currentX -= cellWidth;
+                    currentX -= cellSideLength;
                 }
             } else if (fromColumn == toColumn) {
                 if (toRow > fromRow) {
-                    currentY += cellHeight;
+                    currentY += cellSideLength;
                 } else {
-                    currentY -= cellHeight;
+                    currentY -= cellSideLength;
                 }
             }
             pathElements.add(new LineTo(currentX, currentY));

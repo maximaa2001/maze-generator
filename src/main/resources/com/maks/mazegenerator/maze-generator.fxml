@@ -33,8 +33,7 @@
          </font>
       </Button>
       <Label fx:id="pointErrorLbl" layoutX="804.0" layoutY="477.0" prefHeight="20.0" prefWidth="177.0" textFill="#FF3333" />
-      <TextField fx:id="widthInput" layoutX="803.0" layoutY="174.0" prefHeight="24.0" prefWidth="77.0" promptText="width" />
-      <TextField fx:id="heightInput" layoutX="903.0" layoutY="174.0" prefHeight="24.0" prefWidth="77.0" promptText="height" />
+      <TextField fx:id="sizeInput" layoutX="838.0" layoutY="167.0" prefHeight="24.0" prefWidth="109.0" promptText="size" />
       <Label fx:id="generateErrorLbl" alignment="CENTER" layoutX="803.0" layoutY="248.0" prefHeight="20.0" prefWidth="177.0" textFill="#FF3333" />
       <CheckBox fx:id="startCheckBox" alignment="CENTER" disable="true" layoutX="808.0" layoutY="295.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="168.0" text="Start point">
          <font>
