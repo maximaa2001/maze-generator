@@ -1,6 +1,7 @@
 package com.maks.mazegenerator.service.animation;
 
 import com.maks.mazegenerator.entity.AnimationHero;
+import com.maks.mazegenerator.util.VoidSmth;
 import javafx.animation.KeyFrame;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
@@ -9,10 +10,13 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.PathElement;
 import javafx.util.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public class AnimationServiceImpl implements AnimationService {
+    private static final Logger logger = LoggerFactory.getLogger(AnimationServiceImpl.class);
 
     @Override
     public void runFrameAnimation(AnimationHero hero) {
@@ -22,8 +26,10 @@ public class AnimationServiceImpl implements AnimationService {
     }
 
     @Override
-    public void runTransitionAnimation(AnimationHero hero, List<Pair<Integer, Integer>> path, double cellSideLength) {
+    public void runTransitionAnimation(AnimationHero hero, List<Pair<Integer, Integer>> path, double cellSideLength, VoidSmth onFinishedCallback) {
+        logger.debug("path size {}", path.size());
         PathTransition transition = new PathTransition(TransitionDurationFactory.createTime(path.size()), new Path(resolvePathElements(hero, path, cellSideLength)), hero.getImageView());
+        transition.setOnFinished((event -> onFinishedCallback.execute()));
         transition.play();
     }
 

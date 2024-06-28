@@ -5,7 +5,6 @@ import javafx.util.Duration;
 public final class TransitionDurationFactory {
 
     public static Duration createTime(int pathSize) {
-        System.out.println(pathSize);
         Duration duration = null;
         if (pathSize < 50) {
             duration = Duration.seconds(10);

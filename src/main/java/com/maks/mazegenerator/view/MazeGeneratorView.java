@@ -153,7 +153,7 @@ public class MazeGeneratorView extends AbstractView {
             Pair<Integer, Integer> startPoint = mazeGeneratorViewModel.getStartPointProperty().getValue();
             stackPanes[startPoint.getKey()][startPoint.getValue()].getChildren().add(pacman.getImageView());
             animationService.runFrameAnimation(pacman);
-            animationService.runTransitionAnimation(pacman, mazeGeneratorViewModel.getPathProperty().getValue(), cellSideLength);
+            animationService.runTransitionAnimation(pacman, mazeGeneratorViewModel.getPathProperty().getValue(), cellSideLength, () -> mazeGeneratorViewModel.clearData());
         });
     }
 
