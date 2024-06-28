@@ -32,16 +32,16 @@
             <Font size="18.0" />
          </font>
       </Button>
-      <Label fx:id="pointErrorLbl" layoutX="804.0" layoutY="477.0" prefHeight="20.0" prefWidth="177.0" textFill="#FF3333"/>
+      <Label fx:id="pointErrorLbl" layoutX="804.0" layoutY="477.0" prefHeight="20.0" prefWidth="177.0" textFill="#FF3333" />
       <TextField fx:id="widthInput" layoutX="803.0" layoutY="174.0" prefHeight="24.0" prefWidth="77.0" promptText="width" />
       <TextField fx:id="heightInput" layoutX="903.0" layoutY="174.0" prefHeight="24.0" prefWidth="77.0" promptText="height" />
       <Label fx:id="generateErrorLbl" alignment="CENTER" layoutX="803.0" layoutY="248.0" prefHeight="20.0" prefWidth="177.0" textFill="#FF3333" />
-      <CheckBox fx:id="startCheckBox" alignment="CENTER" layoutX="808.0" layoutY="295.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="168.0" text="Start point">
+      <CheckBox fx:id="startCheckBox" alignment="CENTER" disable="true" layoutX="808.0" layoutY="295.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="168.0" text="Start point">
          <font>
             <Font size="18.0" />
          </font>
       </CheckBox>
-      <CheckBox fx:id="endCheckBox" alignment="CENTER" layoutX="808.0" layoutY="337.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="168.0" text="End point">
+      <CheckBox fx:id="endCheckBox" alignment="CENTER" disable="true" layoutX="808.0" layoutY="337.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="168.0" text="End point">
          <font>
             <Font size="18.0" />
          </font>

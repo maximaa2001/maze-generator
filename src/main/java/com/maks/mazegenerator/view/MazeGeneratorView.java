@@ -1,6 +1,10 @@
 package com.maks.mazegenerator.view;
 
+import com.maks.mazegenerator.entity.AnimationHero;
+import com.maks.mazegenerator.entity.Pacman;
 import com.maks.mazegenerator.property.Maze;
+import com.maks.mazegenerator.service.animation.AnimationService;
+import com.maks.mazegenerator.service.animation.AnimationServiceImpl;
 import com.maks.mazegenerator.util.AppUtils;
 import com.maks.mazegenerator.viewmodel.MazeGeneratorViewModel;
 import javafx.event.ActionEvent;
@@ -17,6 +21,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Line;
+import javafx.util.Pair;
 
 import java.net.URL;
 import java.util.*;
@@ -68,6 +73,10 @@ public class MazeGeneratorView extends AbstractView {
     private StackPane[][] stackPanes;
 
     private MazeGeneratorViewModel mazeGeneratorViewModel;
+    private final AnimationService animationService = new AnimationServiceImpl();
+
+    private Double cellWidth;
+    private Double cellHeight;
 
     @FXML
     void initialize() {
@@ -102,15 +111,21 @@ public class MazeGeneratorView extends AbstractView {
     }
 
     private void addObservers() {
-        mazeGeneratorViewModel.getMazeProperty().addListener((observable, oldValue, newValue) -> showMaze(newValue));
+        mazeGeneratorViewModel.getMazeProperty().addListener((observable, oldValue, newValue) -> {
+            cellWidth = gridPane.getWidth() / newValue.width();
+            cellHeight = gridPane.getHeight() / newValue.height();
+            showMaze(newValue);
+        });
         mazeGeneratorViewModel.getGenerateErrorProperty().addListener((observable, oldValue, newValue) -> generateErrorLbl.setText(newValue));
         mazeGeneratorViewModel.getEventHandlerDtoProperty().addListener((observable, oldValue, newValue) -> {
-            for (StackPane[] stackPanes : stackPanes) {
-                for (StackPane stackPane : stackPanes) {
-                    if (newValue.clickOnPaneHandler() != null) {
-                        stackPane.addEventHandler(MouseEvent.MOUSE_CLICKED, newValue.clickOnPaneHandler());
-                    } else {
-                        stackPane.removeEventHandler(MouseEvent.MOUSE_CLICKED, oldValue.clickOnPaneHandler());
+            if (stackPanes != null) {
+                for (StackPane[] stackPanes : stackPanes) {
+                    for (StackPane stackPane : stackPanes) {
+                        if (newValue.clickOnPaneHandler() != null) {
+                            stackPane.addEventHandler(MouseEvent.MOUSE_CLICKED, newValue.clickOnPaneHandler());
+                        } else {
+                            stackPane.removeEventHandler(MouseEvent.MOUSE_CLICKED, oldValue.clickOnPaneHandler());
+                        }
                     }
                 }
             }
@@ -139,15 +154,11 @@ public class MazeGeneratorView extends AbstractView {
         });
         mazeGeneratorViewModel.getPointErrorProperty().addListener((observable, oldValue, newValue) -> pointErrorLbl.setText(newValue));
         mazeGeneratorViewModel.getPathProperty().addListener((observable, oldValue, newValue) -> {
-            for (int i = 0; i < newValue.size(); i++) {
-                Label label = new Label(String.valueOf(i));
-                stackPanes[newValue.get(i).getKey()][newValue.get(i).getValue()].getChildren().add(label);
-            }
-//            newValue.stream()
-//                    .skip(1)
-//                    .forEach(e -> {
-//                        stackPanes[e.getKey()][e.getValue()].setStyle("-fx-border-color: #DEFAFF");
-//                    });
+            AnimationHero pacman = new Pacman(cellWidth, cellHeight);
+            Pair<Integer, Integer> startPoint = mazeGeneratorViewModel.getStartPointProperty().getValue();
+            stackPanes[startPoint.getKey()][startPoint.getValue()].getChildren().add(pacman.getImageView());
+            animationService.runFrameAnimation(pacman);
+            animationService.runTransitionAnimation(pacman, mazeGeneratorViewModel.getPathProperty().getValue(), cellWidth, cellHeight);
         });
     }
 
@@ -163,9 +174,9 @@ public class MazeGeneratorView extends AbstractView {
                     pane.getChildren().add(line);
                     StackPane.setAlignment(line, Pos.TOP_RIGHT);
                     if (i == maze.height() - 1) {
-                        line.setEndY(gridPane.getHeight() / maze.height() - 2);
+                        line.setEndY(cellHeight - 2);
                     } else {
-                        line.setEndY(gridPane.getHeight() / maze.height() - 1);
+                        line.setEndY(cellHeight - 1);
                     }
                 }
             }
@@ -178,9 +189,9 @@ public class MazeGeneratorView extends AbstractView {
                     pane.getChildren().add(line);
                     StackPane.setAlignment(line, Pos.BOTTOM_LEFT);
                     if (j == maze.width() - 1) {
-                        line.setEndX(gridPane.getWidth() / maze.width() - 2);
+                        line.setEndX(cellWidth - 2);
                     } else {
-                        line.setEndX(gridPane.getWidth() / maze.width() - 1);
+                        line.setEndX(cellHeight - 1);
                     }
                 }
             }
@@ -201,13 +212,13 @@ public class MazeGeneratorView extends AbstractView {
         for (int i = 0; i < maze.width(); i++) {
             ColumnConstraints column = new ColumnConstraints();
             column.setHgrow(Priority.ALWAYS);
-            column.setMaxWidth(gridPane.getWidth() / maze.width());
+            column.setMaxWidth(cellWidth);
             gridPane.getColumnConstraints().add(column);
         }
         for (int i = 0; i < maze.height(); i++) {
             RowConstraints row = new RowConstraints();
             row.setVgrow(Priority.ALWAYS);
-            row.setMaxHeight(gridPane.getHeight() / maze.height());
+            row.setMaxHeight(cellHeight);
             gridPane.getRowConstraints().add(row);
         }
         for (int i = 0; i < maze.height(); i++) {

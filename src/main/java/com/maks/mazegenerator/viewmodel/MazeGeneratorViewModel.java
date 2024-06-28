@@ -59,9 +59,16 @@ public class MazeGeneratorViewModel extends AbstractViewModel {
             try {
                 int width = Integer.parseInt(widthStr);
                 int height = Integer.parseInt(heightStr);
-                generateErrorProperty.setValue("");
-                mazeProperty.setValue(mazeGenerator.generate(width, height));
-                eventHandlerDtoProperty.setValue(new EventHandlerDto(stackPaneEventHandler));
+                if (width > 0 && height > 0) {
+                    generateErrorProperty.setValue("");
+                    startPointProperty.setValue(null);
+                    endPointProperty.setValue(null);
+                    eventHandlerDtoProperty.setValue(new EventHandlerDto(null));
+                    mazeProperty.setValue(mazeGenerator.generate(width, height));
+                    eventHandlerDtoProperty.setValue(new EventHandlerDto(stackPaneEventHandler));
+                } else {
+                    generateErrorProperty.setValue("Incorrect data");
+                }
             } catch (NumberFormatException e) {
                 generateErrorProperty.setValue("Incorrect data");
             }
