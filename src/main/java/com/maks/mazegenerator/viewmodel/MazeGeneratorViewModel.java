@@ -9,7 +9,7 @@ import com.maks.mazegenerator.lifecycle.Lifecycle;
 import com.maks.mazegenerator.property.EventHandlerDto;
 import com.maks.mazegenerator.property.Maze;
 import com.maks.mazegenerator.property.PathProperty;
-import com.maks.mazegenerator.service.EilerMazeGenerator;
+import com.maks.mazegenerator.service.EulerMazeGenerator;
 import com.maks.mazegenerator.service.MazeGenerator;
 import com.maks.mazegenerator.service.SimpleBooleanGenerator;
 import com.maks.mazegenerator.service.file.MazeTransporter;
@@ -45,7 +45,7 @@ public class MazeGeneratorViewModel extends AbstractViewModel {
     private final Property<PathProperty> pathProperty = new SimpleObjectProperty<>();
     private final Property<AnimationHero> animationProperty = new SimpleObjectProperty<>(hero);
 
-    private final MazeGenerator mazeGenerator = new EilerMazeGenerator(new SimpleBooleanGenerator());
+    private final MazeGenerator mazeGenerator = new EulerMazeGenerator(new SimpleBooleanGenerator());
     private final MazeIdConverter mazeIdConverter = new DefaultMazeIdConverter();
     private final GraphDirector graphDirector = new DefaultGraphDirector(new DefaultGraphBuilder(), mazeIdConverter);
     private final MazeTransporter mazeTransporter = new MazeTransporterImpl();

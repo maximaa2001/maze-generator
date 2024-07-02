@@ -2,11 +2,11 @@ package com.maks.mazegenerator.service;
 
 import com.maks.mazegenerator.property.Maze;
 
-public class EilerMazeGenerator implements MazeGenerator {
+public class EulerMazeGenerator implements MazeGenerator {
     private final BooleanGenerator booleanGenerator;
     private int nextGroupNumber = 1;
 
-    public EilerMazeGenerator(BooleanGenerator booleanGenerator) {
+    public EulerMazeGenerator(BooleanGenerator booleanGenerator) {
         this.booleanGenerator = booleanGenerator;
     }
 
