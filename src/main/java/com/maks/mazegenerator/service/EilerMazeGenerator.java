@@ -26,7 +26,7 @@ public class EilerMazeGenerator implements MazeGenerator {
                 finishLastLine(groupNumberMatrix, i, verticalWalls, horizontalWalls, size);
             }
         }
-        return new Maze(size, size, verticalWalls, horizontalWalls);
+        return new Maze(size, verticalWalls, horizontalWalls);
     }
 
     private void resetNextGroupNumber() {

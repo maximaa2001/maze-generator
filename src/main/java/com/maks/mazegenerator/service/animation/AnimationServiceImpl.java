@@ -22,6 +22,7 @@ public class AnimationServiceImpl implements AnimationService {
     public void runFrameAnimation(AnimationHero hero) {
         Timeline timeline = new Timeline(new KeyFrame(hero.getFrameDuration(), event -> hero.nextFrame()));
         timeline.setCycleCount(Timeline.INDEFINITE);
+        hero.setTimeline(timeline);
         timeline.play();
     }
 
@@ -30,6 +31,7 @@ public class AnimationServiceImpl implements AnimationService {
         logger.debug("path size {}", path.size());
         PathTransition transition = new PathTransition(TransitionDurationFactory.createTime(path.size()), new Path(resolvePathElements(hero, path, cellSideLength)), hero.getImageView());
         transition.setOnFinished((event -> onFinishedCallback.execute()));
+        hero.setPathTransition(transition);
         transition.play();
     }
 

@@ -9,10 +9,6 @@ import java.util.*;
 
 public class Pacman extends AnimationHero {
 
-    public Pacman(double imageViewWidth, double imageViewHeight) {
-        super(imageViewWidth, imageViewHeight);
-    }
-
     @Override
     protected List<Image> initImages() {
         Image image1 = createImageView(getResourcePath(AppConstant.PACMAN_1_IMAGE));

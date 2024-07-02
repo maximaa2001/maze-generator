@@ -6,14 +6,16 @@ public final class TransitionDurationFactory {
 
     public static Duration createTime(int pathSize) {
         Duration duration = null;
-        if (pathSize < 50) {
+        if (pathSize < 20) {
+            duration = Duration.seconds(5);
+        } else if (pathSize < 50) {
             duration = Duration.seconds(10);
         } else if (pathSize < 80) {
-            duration = Duration.seconds(20);
+            duration = Duration.seconds(15);
         } else if (pathSize < 120) {
-            duration = Duration.seconds(30);
+            duration = Duration.seconds(20);
         } else {
-            duration = Duration.seconds(40);
+            duration = Duration.seconds(30);
         }
         return duration;
     }

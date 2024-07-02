@@ -1,6 +1,8 @@
 package com.maks.mazegenerator.entity;
 
 import com.maks.mazegenerator.MainApplication;
+import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
@@ -14,12 +16,12 @@ public abstract class AnimationHero {
     protected final ImageView imageView;
     protected final List<Image> images;
     protected int currentImage = 0;
+    private Timeline timeline;
+    private PathTransition pathTransition;
 
-    protected AnimationHero(double imageViewWidth, double imageViewHeight) {
+    protected AnimationHero() {
         images = initImages();
         this.imageView = new ImageView();
-        imageView.setFitWidth(imageViewWidth);
-        imageView.setFitHeight(imageViewHeight);
     }
 
     protected String getResourcePath(String path) {
@@ -41,6 +43,22 @@ public abstract class AnimationHero {
     }
 
     public abstract void nextFrame();
+
+    public Timeline getTimeline() {
+        return timeline;
+    }
+
+    public void setTimeline(Timeline timeline) {
+        this.timeline = timeline;
+    }
+
+    public PathTransition getPathTransition() {
+        return pathTransition;
+    }
+
+    public void setPathTransition(PathTransition pathTransition) {
+        this.pathTransition = pathTransition;
+    }
 
     public ImageView getImageView() {
         return imageView;

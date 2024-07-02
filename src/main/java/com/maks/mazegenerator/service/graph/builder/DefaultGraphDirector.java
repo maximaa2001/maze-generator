@@ -16,13 +16,12 @@ public class DefaultGraphDirector implements GraphDirector {
 
     @Override
     public Graph makeMazeGraph(Maze maze, Pair<Integer, Integer> root) {
-        int height = maze.height();
-        int width = maze.width();
+        int size = maze.size();
         boolean[][] verticalWalls = maze.verticalWalls();
         boolean[][] horizontalWalls = maze.horizontalWalls();
         graphBuilder.buildRoot(mazeIdConverter.convert(root));
-        createNodes(height, width);
-        createEdges(height, width, verticalWalls, horizontalWalls);
+        createNodes(size, size);
+        createEdges(size, size, verticalWalls, horizontalWalls);
         return graphBuilder.build();
     }
 

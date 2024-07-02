@@ -50,5 +50,6 @@
             <Font size="18.0" />
          </font>
       </Button>
+      <Label fx:id="exportErrorLbl" alignment="CENTER" layoutX="803.0" layoutY="103.0" prefHeight="20.0" prefWidth="177.0" textFill="#FF3333" />
     </children>
 </AnchorPane>
